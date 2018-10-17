@@ -2511,7 +2511,7 @@ return sendMsg(msg.chat_id_,msg.id_,"📡| قام  "..ResolveUser(data).."\n📭
 end)
 end
 
-if msg.adduser or msg.joinuser then
+if msg.adduser or msg.joinuser or msg.deluser then
 
 if msg.adduser and msg.adduserType == "UserTypeBot" then
 if not Admin() and redis:get(boss..'lock_bots'..msg.chat_id_) then 
@@ -2520,6 +2520,13 @@ elseif not Admin() and redis:get(boss..'lock_bots_by_kick'..msg.chat_id_) then
 kick_user(msg.adduser, msg.chat_id_)
 kick_user(msg.sender_user_id_, msg.chat_id_)
 end
+if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
+Del_msg(msg.chat_id_,msg.id_)
+end
+return false
+end
+if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
+Del_msg(msg.chat_id_,msg.id_)
 else
 if redis:get(boss..'welcome:get'..msg.chat_id_) then
 welcome = (redis:get(boss..'welcome:msg'..msg.chat_id_) or "🔖¦ مرحباً عزيزي\n🔖¦ نورت المجموعة \n💂🏼‍♀️")
@@ -2533,9 +2540,6 @@ local welcome = welcome:gsub("{المعرف}",UserName)
 local welcome = welcome:gsub("{الاسم}",FlterName(msg.addname,20))
 sendMsg(msg.chat_id_,msg.id_,Flter_Markdown(welcome))
 end 
-end 
-if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
-Del_msg(msg.chat_id_,msg.id_)
 end
 end
 
