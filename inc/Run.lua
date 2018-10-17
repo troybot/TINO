@@ -589,6 +589,8 @@ function tdcli_update_callback(data)
 	elseif msg.content_.ID == "MessageGame" then
 	print('¦'..msg.content_.ID)
 	msg.game = true
+	elseif msg.content_.ID == "MessageChatDeleteMember" then
+	 msg.deluser = true
 	elseif msg.content_.ID == "MessageChatAddMembers" then
 	for i=0,#msg.content_.members_ do
 	msg.adduser = msg.content_.members_[i].id_
