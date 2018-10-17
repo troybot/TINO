@@ -233,13 +233,6 @@ print('\27[36m¦¦¦¦  !! [THIS__OLD__MSG]  !! ¦¦¦¦\27[39m')
 return false  
 end  
 
-if MsgsBot(msg) then 
-print("\27[1;31mThis Msgs Bot\27[0m")
-return false
-end
-
-
-
 if msg.reply_to_message_id_ ~= 0 then msg.reply_id = msg.reply_to_message_id_ end
 msg.type = GetType(msg.chat_id_)
 
