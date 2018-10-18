@@ -192,7 +192,7 @@ print('\27[0;33m>>'..[[
 ..'¦ VERSION->: \27[1;34mv'..version..'\027[0;32m\n'
 ..'======================================\27[0;33m\27[0;31m'
 )
-
+local Twer = io.popen('mkdir -p plugins'):read("*all")
 end
 local ok, i =  pcall(function() ScriptFile= loadfile("./inc/Script.lua")() end)
 if not ok then 
