@@ -2508,7 +2508,6 @@ redis:set(boss..'group:name'..msg.chat_id_,msg.content_.title_)
 return sendMsg(msg.chat_id_,msg.id_,"📡| قام  "..ResolveUser(data).."\n📭¦ بتغير اسم المجموعه  ✋🏿\n🗯¦ الى "..Flter_Markdown(msg.content_.title_).." \n✓") 
 end)
 end
-
 if msg.adduser or msg.joinuser or msg.deluser then
 
 if msg.adduser and msg.adduserType == "UserTypeBot" then
@@ -2520,14 +2519,14 @@ kick_user(msg.sender_user_id_, msg.chat_id_)
 end
 if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
 Del_msg(msg.chat_id_,msg.id_)
-return false
 end
+return false
 end
 if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
 Del_msg(msg.chat_id_,msg.id_)
 else
 if not msg.deluser and redis:get(boss..'welcome:get'..msg.chat_id_) then 
-if not msg.addusername then
+if not msg.adduserType then
 GetUserID(msg.sender_user_id_,function(arg,data)  
 welcome = (redis:get(boss..'welcome:msg'..msg.chat_id_) or "🔖¦ مرحباً عزيزي\n🔖¦ نورت المجموعة \n💂🏼‍♀️")
 if welcome then
@@ -2541,7 +2540,6 @@ sendMsg(msg.chat_id_,msg.id_,Flter_Markdown(welcome))
 end 
 end)
 else
-print("join")
 welcome = (redis:get(boss..'welcome:msg'..msg.chat_id_) or "🔖¦ مرحباً عزيزي\n🔖¦ نورت المجموعة \n💂🏼‍♀️")
 if welcome then
 rules = (redis:get(boss..'rulse:msg'..msg.chat_id_) or "🔖¦ مرحبأ عزيري 👋🏻 القوانين كلاتي 👇🏻\n🔖¦ ممنوع نشر الروابط \n🔖¦ ممنوع التكلم او نشر صور اباحيه \n🔖¦ ممنوع  اعاده توجيه \n🔖¦ ممنوع التكلم بلطائفه \n🔖¦ الرجاء احترام المدراء والادمنيه 😅\n")
