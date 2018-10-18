@@ -232,7 +232,10 @@ if msg.date and msg.date < os.time() - 30 and not msg.edited then --[[ فحص ت
 print('\27[36m¦¦¦¦  !! [THIS__OLD__MSG]  !! ¦¦¦¦\27[39m')
 return false  
 end  
-
+if not (msg.adduser or msg.joinuser or msg.deluser) and msg.sender_user_id_ == our_id then
+ return false
+end
+	
 if msg.reply_to_message_id_ ~= 0 then msg.reply_id = msg.reply_to_message_id_ end
 msg.type = GetType(msg.chat_id_)
 
