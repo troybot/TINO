@@ -462,14 +462,6 @@ end
 return var
 end
 
-function MsgsBot(msg)
-local Enter = false
-if tonumber(msg.sender_user_id_) == tonumber(our_id) 
-and not (msg.adduser or msg.joinuser or msg.deluser) then
-Enter = true
-end
-return Enter
-end
 
 function SaveNumMsg(msg)
 if msg.edited then
@@ -1061,12 +1053,11 @@ return '📛*¦* تـم تـعـطـيـل الـمـجـمـوعـه ⚠️'
 end
 
 function action_by_reply(arg,data)  --===  معلومات الرد 
-
+local MsgID = arg.msg.id_
+local ChatID = arg.msg.chat_id_
 if data.sender_user_id_ then
 local cmd = arg.cmd
 local UserID = data.sender_user_id_
-local MsgID = arg.msg.id_
-local ChatID = data.chat_id_
 GetUserID(UserID,function(arg,data)
 
 local USERNAME = ResolveUser(data)
