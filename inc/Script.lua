@@ -20,9 +20,7 @@ end
 if MsgText[1] == "تعطيل" and not MsgText[2] then
 return modrem(msg) 
 end
-
 end
-
 
 
 if msg.type ~= 'pv' and GroupActive then 
@@ -2528,18 +2526,38 @@ end
 if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
 Del_msg(msg.chat_id_,msg.id_)
 else
-if not msg.deluser and redis:get(boss..'welcome:get'..msg.chat_id_) then
+if not msg.deluser and redis:get(boss..'welcome:get'..msg.chat_id_) then 
+if msg.joinuser then
+print("sssss")
+GetUserID(msg.sender_user_id_,function(arg,data)
+
+print("sssss")
+
 welcome = (redis:get(boss..'welcome:msg'..msg.chat_id_) or "🔖¦ مرحباً عزيزي\n🔖¦ نورت المجموعة \n💂🏼‍♀️")
 if welcome and welcome:match("{القوانين}") then
 rules = (redis:get(boss..'rulse:msg'..msg.chat_id_) or "🔖¦ مرحبأ عزيري 👋🏻 القوانين كلاتي 👇🏻\n🔖¦ ممنوع نشر الروابط \n🔖¦ ممنوع التكلم او نشر صور اباحيه \n🔖¦ ممنوع  اعاده توجيه \n🔖¦ ممنوع التكلم بلطائفه \n🔖¦ الرجاء احترام المدراء والادمنيه 😅\n")
 welcome = welcome:gsub("{القوانين}", rules)
-end
+if data.username_ then UserName = '@'..data.username_ else UserName = '< لا يوجد معرف >' end
+welcome = welcome:gsub("{المجموعه}",Flter_Markdown((redis:get(boss..'group:name'..msg.chat_id_) or '')))
+local welcome = welcome:gsub("{المعرف}",UserName)
+local welcome = welcome:gsub("{الاسم}",FlterName(data.first_name_..' '..(data.last_name_ or "" ),20))
+sendMsg(msg.chat_id_,msg.id_,Flter_Markdown(welcome))
+end 
+end)
+else
+welcome = (redis:get(boss..'welcome:msg'..msg.chat_id_) or "🔖¦ مرحباً عزيزي\n🔖¦ نورت المجموعة \n💂🏼‍♀️")
+if welcome and welcome:match("{القوانين}") then
+rules = (redis:get(boss..'rulse:msg'..msg.chat_id_) or "🔖¦ مرحبأ عزيري 👋🏻 القوانين كلاتي 👇🏻\n🔖¦ ممنوع نشر الروابط \n🔖¦ ممنوع التكلم او نشر صور اباحيه \n🔖¦ ممنوع  اعاده توجيه \n🔖¦ ممنوع التكلم بلطائفه \n🔖¦ الرجاء احترام المدراء والادمنيه 😅\n")
+welcome = welcome:gsub("{القوانين}", rules)
 if msg.addusername then UserName = '@'..msg.addusername else UserName = '< لا يوجد معرف >' end
 welcome = welcome:gsub("{المجموعه}",Flter_Markdown((redis:get(boss..'group:name'..msg.chat_id_) or '')))
 local welcome = welcome:gsub("{المعرف}",UserName)
 local welcome = welcome:gsub("{الاسم}",FlterName(msg.addname,20))
 sendMsg(msg.chat_id_,msg.id_,Flter_Markdown(welcome))
 end 
+end
+
+end
 end
 end
 
