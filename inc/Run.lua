@@ -274,7 +274,7 @@ Rank = 6
 elseif msg.sender_user_id_ == our_id then
 Rank = 7
 else
-Rank = 0
+Rank = false
 end
 
 
