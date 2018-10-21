@@ -2072,7 +2072,15 @@ sendVideo(FwdUser,MSG_ID,video_id,msg.content_.caption_ or '')
 elseif msg.audio then
 sendAudio(FwdUser,MSG_ID,audio_id,msg.content_.caption_ or '')
 end 
-SendMention(msg.sender_user_id_,data.id_,msg.id_,"📬¦ تم آرسـآل آلرسـآل‏‏هہ 🌿\n🎟¦ آلى : "..FlterName(data.first_name_..''..(data.last_name_ or ""),25).." 🏌🏻",39,25) 
+
+if data.username_ then 
+USERNAME = '@'..data.username_
+else 
+USERNAME = FlterName(data.first_name_..' '..(data.last_name_ or ""),20) 
+end
+USERCAR = utf8.len(USERNAME)
+
+SendMention(msg.sender_user_id_,data.id_,msg.id_,"📬¦ تم آرسـآل آلرسـآل‏‏هہ 🌿\n🎟¦ آلى : "..USERNAME,25).." 🏌🏻",39,USERCAR) 
 return false 
 end,nil)
 end  
