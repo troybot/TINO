@@ -68,7 +68,7 @@ caption_ = caption or ''
 },func or dl_cb,nil))
 end
 	
-	
+	 
 function sendVoice(chat_id,reply_id,voice,caption,func)
 pcall(tdcli_function({
 ID="SendMessage",
@@ -138,16 +138,15 @@ height_ = 0
 end
 
 function sendVideo(chat_id,reply_id,video,caption,func)
-pcall(tdcli_function({
+pcall(tdcli_function({ 
 ID="SendMessage",
 chat_id_ = chat_id,
 reply_to_message_id_ = reply_id,
 disable_notification_ = 0,
 from_background_ = 0,
 reply_markup_ = nil,
-
-input_message_content = {
-ID="InputMessageVideo",
+input_message_content_ = {
+ID="InputMessageVideo",  
 video_ = GetInputFile(video),
 added_sticker_file_ids_ = {},
 duration_ = 0,
@@ -156,6 +155,7 @@ height_ = 0,
 caption_ = caption or ''
 }},func or dl_cb,nil))
 end
+
 
 function sendDocument(chat_id,reply_id,document,caption,func)
 pcall(tdcli_function({
@@ -1092,8 +1092,8 @@ Get_Director = 25
 else
 service = false
 Get_Director = 1
-end
-if not redis:sismember(boss..':SUDO_BOT:',msg.sender_user_id_) and SUDO_ID ~= msg.sender_user_id_ and not service then return '🚸¦ أنـت لـسـت الـمـطـور ⚙️' end
+end 
+if not msg.SudoUser and not service then return '🚸¦ أنـت لـسـت الـمـطـور ⚙️' end
 if msg.is_post_ then return "🚸¦ عذرا هذا بوت حمايه المجموعات وليس القنوات  " end
 if msg.type ~= "channel" then return '🚸¦ لا يمكنك تفعيل البوت في المجوعات العاديه / البوت يدعم فقط المجموعات الخارقه ⚙️' end
 if redis:get(boss..'group:add'..msg.chat_id_) then  return '🎗*¦* المجموعه بالتأكيد ✓️ تم تفعيلها' end
@@ -1101,9 +1101,6 @@ if redis:get(boss..'group:add'..msg.chat_id_) then  return '🎗*¦* المجم�
 local UserChaneel = redis:get(boss..":UserNameChaneel")
 if UserChaneel and not msg.SudoBase then
 local url , res = https.request(ApiToken..'/getchatmember?chat_id='..UserChaneel..'&user_id='..msg.sender_user_id_)
-print("\n")
-print(ApiToken..'/getchatmember?chat_id='..UserChaneel..'&user_id='..msg.sender_user_id_)
-print("\n")
 if res == 200 then
 print(url) 
 local Req = JSON.decode(url)
@@ -1207,7 +1204,7 @@ return false
 end 
 
 function modrem(msg)
-if not msg.SudoBase then return '🛠*¦* أنـت لـسـت الـمـطـور ⚙️'end
+if not msg.SudoUser then return '🛠*¦* أنـت لـسـت الـمـطـور ⚙️'end
 if not redis:get(boss..'group:add'..msg.chat_id_) then return '🛠*¦* المجموعه بالتأكيد ✓️ تم تعطيلها' end  
 rem_data_group(msg.chat_id_)
 return '📛*¦* تـم تـعـطـيـل الـمـجـمـوعـه ⚠️'

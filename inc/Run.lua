@@ -290,13 +290,13 @@ else
 msg.TheRank = 'فقط عضو 🙍🏼‍♂️'
 msg.Rank = 10 
 end
-
+ 
 if msg.Rank == 1 then
 msg.SudoBase = true
 end
-
+ 
 if msg.Rank == 1 or msg.Rank == 2 then
-msg.SudoBase = true
+msg.SudoUser = true
 end
 
 if msg.Rank == 1 or msg.Rank == 2 or msg.Rank == 3 then

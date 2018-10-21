@@ -113,6 +113,11 @@ boss..'lock_spam'..msg.chat_id_,
 boss..'lock_bots'..msg.chat_id_,
 boss..'lock_webpage'..msg.chat_id_,
 boss..'mute_video'..msg.chat_id_,
+boss..':tqeed_video:'..msg.chat_id_,
+boss..':tqeed_photo:'..msg.chat_id_,
+boss..':tqeed_gif:'..msg.chat_id_,
+boss..':tqeed_fwd:'..msg.chat_id_,
+boss..':tqeed_link:'..msg.chat_id_,
 boss..'mute_inline'..msg.chat_id_
 )
 return "🙋🏼‍♂️*¦* أهلا عزيزي "..msg.TheRankCmd.."\n📡*¦* تم فتح الكل  \n✓"
@@ -230,7 +235,7 @@ redis:del(boss..':tqeed_fwd:'..msg.chat_id_)
 return '🙋🏼‍♂️*¦* أهلا عزيزي '..msg.TheRankCmd..'\n📡*¦* تم فتح التوجيه بالتقييد \n✓'
 end
 end
-
+ 
 ---------------Lock -------------------
 function tqeed_link(msg)
 if not msg.Admin then return "🚸*¦ * هذا الامر يخص الادمنيه فقط  \n📛" end

@@ -230,7 +230,7 @@ end
 
 
 if (MsgText[1] == "رفع منشى" or MsgText[1] == "رفع منشئ") then
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور,المطور الاساسي} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور,المطور الاساسي} فقط  \n🚶" end
 if not MsgText[2] and msg.reply_id then
 GetMsgInfo(msg.chat_id_,msg.reply_id,action_by_reply,{msg=msg,cmd="setmnsha"})
 end
@@ -245,7 +245,7 @@ end
 
 
 if (MsgText[1] == "تنزيل منشى" or MsgText[1] == "تنزيل منشئ" ) then
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور,المطور الاساسي} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور,المطور الاساسي} فقط  \n🚶" end
 if not MsgText[2] and msg.reply_id then
 GetMsgInfo(msg.chat_id_,msg.reply_id,action_by_reply,{msg=msg,cmd="remmnsha"})
 end
@@ -510,7 +510,7 @@ end
 
 
 if MsgText[2] == "المنشئيين" then
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 local NumMnsha = redis:scard(boss..':MONSHA_BOT:'..msg.chat_id_)
 if NumMnsha ==0 then 
 return "📛¦ عذرا لا يوجد منشئيين ليتم مسحهم \n!" 
@@ -787,7 +787,7 @@ end
 
 
 if MsgText[1] == 'شحن' and MsgText[2] then
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 if tonumber(MsgText[2]) > 0 and tonumber(MsgText[2]) < 1001 then
 local extime = (tonumber(MsgText[2]) * 86400)
 redis:setex(boss..'ExpireDate:'..msg.chat_id_, extime, true)
@@ -802,7 +802,7 @@ return false
 end
 
 if MsgText[1] == 'الاشتراك' and MsgText[2] then 
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 if MsgText[2] == '1' then
 redis:setex(boss..'ExpireDate:'..msg.chat_id_, 2592000, true)
 if not redis:get(boss..'CheckExpire::'..msg.chat_id_) then 
@@ -1252,7 +1252,7 @@ end
 end
 
 if MsgText[1] == 'المجموعات' or MsgText[1] == "المجموعات 🔝" then 
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 return '📮*¦* عدد المجموعات المفعلة » `'..redis:scard(boss..'group:ids')..'`  ➼' 
 end
 
@@ -1262,7 +1262,7 @@ return chat_list(msg)
 end
 
 if MsgText[1] == 'تعطيل' and MsgText[2] and MsgText[2]:match("-100(%d+)") then
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 if redis:sismember(boss..'group:ids',MsgText[2]) then
 local name_gp = redis:get(boss..'group:name'..MsgText[2])
 sendMsg(MsgText[2],0,'📛*¦* تم تعطيل المجموعه بأمر من المطور  \n🚸*¦* سوف اغادر جاوو 🚶🏻🚶🏻 ...\n✘')
@@ -1280,7 +1280,7 @@ end
 
 if MsgText[1] == "اذاعه عام بالتوجيه" or MsgText[1] == "اذاعه عام بالتوجيه 📣" then
 if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoBase and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:'..msg.sender_user_id_,300, true) 
@@ -1289,7 +1289,7 @@ end
 
 if MsgText[1] == "اذاعه عام" or MsgText[1] == "اذاعه عام 📢" then		
 if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoBase and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:all'..msg.sender_user_id_,300, true) 
@@ -1298,7 +1298,7 @@ end
 
 if MsgText[1] == "اذاعه خاص" or MsgText[1] == "اذاعه خاص 👤" then		
 if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoBase and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:pv'..msg.sender_user_id_,300, true) 
@@ -1307,7 +1307,7 @@ end
 
 if MsgText[1] == "اذاعه" or MsgText[1] == "اذاعه 🗣" then		
 if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoBase and not redis:get(boss..'lock_brod') then
+if not msg.SudoUser and not redis:get(boss..'lock_brod') then
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:groups'..msg.sender_user_id_,300, true) 
@@ -1315,12 +1315,12 @@ return "📭¦ حسننا الان ارسل الكليشه للاذاعه للم
 end
 
 if MsgText[1] == "المطورين" or MsgText[1] == "المطورين 🕹" then
-if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 return sudolist(msg) 
 end
  
 if MsgText[1] == "قائمه العام" or MsgText[1]=="قائمه العام 📜" then 
-if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
 return GetListGeneralBanned(msg) 
 end
 
@@ -1406,7 +1406,7 @@ end
 if (MsgText[1] == 'تحديث السورس' or MsgText[1] == 'تحديث السورس ™') then
 if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور الاساسي} فقط  \n🚶" end
 local GetVerison = https.request('https://th3bs.github.io/GetVersion.txt') or 0
-if GetVerison <= version then
+if GetVerison > version then
 UpdateSourceStart = true
 sendMsg(msg.chat_id_,msg.id_,'🔛*¦* يوجد تحديث جديد الان \n📡*¦* جاري تنزيل وتثبيت التحديث  ...')
 redis:set(boss..":VERSION",GetVerison)
@@ -1599,7 +1599,7 @@ end
 
 
 if MsgText[1] == 'server' then
-if not msg.SudoBase then return "For Sudo Only." end
+if not msg.SudoUser then return "For Sudo Only." end
 return io.popen([[
 
 linux_version=`lsb_release -ds 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -om`
@@ -1620,7 +1620,7 @@ end
 
 
 if MsgText[1] == 'السيرفر' then
-if not msg.SudoBase then return "For Sudo Only." end
+if not msg.SudoUser then return "For Sudo Only." end
 return io.popen([[
 
 linux_version=`lsb_release -ds`
@@ -1773,7 +1773,7 @@ sendMsg(msg.chat_id_,msg.id_,text)
 return false
 end
 if MsgText[1]== "م المطور" then
-if not msg.SudoBase then return "🔅¦ للمطورين فقط 🎖" end
+if not msg.SudoBase then return "🔅¦ للمطور الاساسي فقط  🎖" end
 local text = [[
 📌¦ اوامر المطور 🃏
 
@@ -1868,7 +1868,7 @@ end
 
 if MsgText[1] == "متجر الملفات" or MsgText[1]:lower() == "/store"  then
 if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور الاساسي} فقط  \n🚶" end
-local Get_Files, res = https.request("https://th3boss.com/GetFiles.json")
+local Get_Files, res = https.request("https://th3bs.github.io/GetFiles.json")
 if res == 200 then
 local Get_info, res = pcall(JSON.decode,Get_Files);
 if Get_info then
@@ -1888,10 +1888,10 @@ TextS = TextS..NumFile.."- `"..name..'` » '..CeckFile..'\nl*»»* [{تفاصي�
 end
 return TextS..TextE
 else
-return "📛| اوبس , هناك خطأ في مصفوفه الجيسون .!"
+return "📛| اوبس , هناك خطأ في مصفوفه الجيسون راسل مطور السورس ليتمكن من حل المشكله في اسرع وقت ممكن.!"
 end
 else
-return "📛| اوبس , لا يوجد اتصال في الـapi .!"
+return "📛| اوبس , لا يوجد اتصال في الـapi راسل المطور ليتم حل المشكله في اسرع وقت ممكن.!"
 end
 return false
 end
@@ -1995,7 +1995,7 @@ local function dBoss(msg)
 
 if msg.type == "pv" then 
 
-if not msg.SudoBase then
+if not msg.SudoUser then
 local msg_pv = tonumber(redis:get(boss..'user:'..msg.sender_user_id_..':msgs') or 0)
 if msg_pv > 5 then
 redis:setex(boss..':mute_pv:'..msg.sender_user_id_,18000,true)   
@@ -2048,7 +2048,7 @@ send_key(msg.sender_user_id_,text,nil,inline,msg.id_)
 return false
 end
 end
-
+ 
 if msg.SudoBase then
 if msg.reply_id and msg.text ~= "رفع نسخه الاحتياطيه" then
 GetMsgInfo(msg.chat_id_,msg.reply_id,function(arg,datainfo)
@@ -2075,7 +2075,7 @@ end
 SendMention(msg.sender_user_id_,data.id_,msg.id_,"📬¦ تم آرسـآل آلرسـآل‏‏هہ 🌿\n🎟¦ آلى : "..FlterName(data.first_name_..''..(data.last_name_ or ""),25).." 🏌🏻",39,25) 
 return false 
 end,nil)
-end 
+end  
 end,nil)
 end 
 else
@@ -2600,9 +2600,9 @@ print("\27[1;31m Msg Del Becuse Send Fwd tqeed \27[0m")
 if data.ID == "Error" and data.code_ == 6 then
 return sendMsg(msg.chat_id_,msg.id_,'📛*¦* لا يمكنني مسح الرساله المخالفه .\n🎟*¦* لست مشرف او ليس لدي صلاحيه  الحذف \n ❕')    
 end
-Restrict(msg.chat_id_,msg.sender_user_id_,3)
+Restrict(msg.chat_id_,msg.sender_user_id_,1)
 end)
-return false
+return false 
 end
 elseif tonumber(msg.via_bot_user_id_) ~= 0 and redis:get(boss..'mute_inline'..msg.chat_id_) then -- قفل الانلاين
 Del_msg(msg.chat_id_,msg.id_,function(arg,data)
@@ -3091,6 +3091,7 @@ end
 
 Replay = redis:hget(boss..'replay_video:group:',msg.text)
 if Replay then 
+print("0000000000000") 
  sendVideo(msg.chat_id_,msg.id_,Replay)
 return false
 end
@@ -3189,9 +3190,9 @@ local song = {
 local Text = msg.text
 local Text2 = Text:match("^"..Bot_Name.." (%d+)$")
 
-if msg.SudoBase and Text == Bot_Name and not Text2 then
+if msg.SudoUser and Text == Bot_Name and not Text2 then
 return sendMsg(msg.chat_id_,msg.id_,su[math.random(#su)])
-elseif not msg.SudoBase and Text== Bot_Name and not Text2 then  
+elseif not msg.SudoUser and Text== Bot_Name and not Text2 then  
 return sendMsg(msg.chat_id_,msg.id_,ss97[math.random(#ss97)])
 elseif Text:match("^كول (.*)$") then
 if utf8.len(Text:match("^كول (.*)$")) > 50 then 
@@ -3210,7 +3211,7 @@ sendMsg(msg.chat_id_,msg.reply_id,'ختفوووووووووو💦💦️️')
 else 
 return sendMsg(msg.chat_id_,msg.id_,"  🕵🏻 وينه بله سويله رد 🙄")
 end
-elseif Text:match("^"..Bot_Name.." رزله(.*)$") and msg.SudoBase then
+elseif Text:match("^"..Bot_Name.." رزله(.*)$") and msg.SudoUser then
 if msg.reply_id then
 sendMsg(msg.chat_id_,msg.id_,'اوك سيدي 🌝🍃')
 return sendMsg(msg.chat_id_,msg.reply_id,'تعال هيوو  😒 شو طالعه عينك ولسانك طويل سربوت  اشو تعال بله شنو هاذ ويهك هاذ 😳 كول بلعباس , 😅 لك #دي وتفو بعد لتندك بتاج راسك خوش حمبقلبي  👍🏿') 
@@ -3221,17 +3222,17 @@ return sendMsg(msg.chat_id_,msg.reply_id,bs[math.random(#bs)])
 else
 return sendMsg(msg.chat_id_,msg.id_,"📌 وينه بله سويله رد 🕵🏻")
 end 
-elseif msg.SudoBase and Text=="هلو" then 
+elseif msg.SudoUser and Text=="هلو" then 
 return sendMsg(msg.chat_id_,msg.id_,sh[math.random(#sh)])
-elseif not msg.SudoBase and Text=="هلو" then 
+elseif not msg.SudoUser and Text=="هلو" then 
 return sendMsg(msg.chat_id_,msg.id_,ns[math.random(#ns)])
-elseif msg.SudoBase and Text== "احبك" then 
+elseif msg.SudoUser and Text== "احبك" then 
 return sendMsg(msg.chat_id_,msg.id_,"اموت عليك حياتي  😍❤️")
-elseif msg.SudoBase and Text== "تحبني" or Text=="حبك" then 
+elseif msg.SudoUser and Text== "تحبني" or Text=="حبك" then 
 return sendMsg(msg.chat_id_,msg.id_,"اموت عليك حياتي  😍❤️")
-elseif not msg.SudoBase and Text== "احبك" or Text=="حبك" then 
+elseif not msg.SudoUser and Text== "احبك" or Text=="حبك" then 
 return sendMsg(msg.chat_id_,msg.id_,lovm[math.random(#lovm)])
-elseif not msg.SudoBase and Text== "تحبني" then
+elseif not msg.SudoUser and Text== "تحبني" then
 return sendMsg(msg.chat_id_,msg.id_,lovm[math.random(#lovm)])
 elseif Text== "غني" or Text=="غنيلي" then 
 return sendMsg(msg.chat_id_,msg.id_,song[math.random(#song)])
@@ -3347,7 +3348,7 @@ return sendMsg(msg.chat_id_,msg.id_,[[
 ]] )
 --=====================================
 elseif Text== "انجب" or Text== "نجب" or Text=="جب" then
-if msg.SudoBase then  
+if msg.SudoUser then  
 return sendMsg(msg.chat_id_,msg.id_,"حاضر مو تدلل حضره المطور  😇 ")
 elseif msg.Creator then 
 return sendMsg(msg.chat_id_,msg.id_,"ع راسي تدلل انته المنشئ تاج راسي 😌")
@@ -3375,7 +3376,7 @@ end
 
 if redis:get(boss..'CheckExpire::'..msg.chat_id_) then
 local ExpireDate = redis:ttl(boss..'ExpireDate:'..msg.chat_id_)
-if not ExpireDate and not msg.SudoBase then
+if not ExpireDate and not msg.SudoUser then
 rem_data_group(msg.chat_id_)
 sendMsg(SUDO_ID,0,'🕵🏼️‍♀️¦ انتهى الاشتراك في احد المجموعات ✋🏿\n👨🏾‍🔧¦ المجموعه : '..FlterName(redis:get(boss..'group:name'..msg.chat_id_))..'🍃\n💂🏻‍♀️¦ ايدي : '..msg.chat_id_)
 sendMsg(msg.chat_id_,0,'🕵🏼️‍♀️¦ انتهى الاشتراك البوت✋🏿\n💂🏻‍♀️¦ سوف اغادر المجموعه فرصه سعيده 👋🏿\n👨🏾‍🔧¦ او راسل المطور للتجديد '..SUDO_USER..' 🍃')
@@ -3383,7 +3384,7 @@ return StatusLeft(msg.chat_id_,our_id)
 else
 local DaysEx = (redis:ttl(boss..'ExpireDate:'..msg.chat_id_) / 86400)
 if tonumber(DaysEx) > 0.208 and ExpireDate ~= -1 and msg.Admin then
-if tonumber(DaysEx + 1) == 1 and not msg.SudoBase then
+if tonumber(DaysEx + 1) == 1 and not msg.SudoUser then
 sendMsg(msg.chat_id_,'🕵🏼️‍♀️¦ باقي يوم واحد وينتهي الاشتراك ✋🏿\n👨🏾‍🔧¦ راسل المطور للتجديد '..SUDO_USER..'\n📛')
 end 
 end 
