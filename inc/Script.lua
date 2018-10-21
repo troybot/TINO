@@ -2349,7 +2349,6 @@ end)
 end
 end 
 end 
-if not msg.GroupActive then return false end
 
 if msg.adduser and msg.adduser == our_id and redis:get(boss..':WELCOME_BOT') then
 sendPhoto(msg.chat_id_,msg.id_,redis:get(boss..':WELCOME_BOT'),[[💯¦ مـرحبآ آنآ بوت آسـمـي ]]..redis:get(boss..':NameBot:')..[[ 🎖
@@ -2413,8 +2412,8 @@ return false
 end
 end
 
+if not msg.GroupActive then return false end
 if msg.text then
-
 
 if redis:get(boss..'addrd:'..msg.chat_id_..msg.sender_user_id_) then -- استقبال الرد للمجموعه فقط
 
