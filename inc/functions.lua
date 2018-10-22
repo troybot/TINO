@@ -1366,7 +1366,7 @@ end
 
 if cmd == "active" then
 local maseegs = redis:get(boss..'msgs:'..UserID..':'..ChatID) or 1
-local namei = data.first_name_..' '..(data.last_name_ or "")
+local namei = FlterName(data.first_name_..' '..(data.last_name_ or ""))
 return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..namei..' \n📮¦ رسائلك » {'..maseegs..'} رسالةة\n🔖¦ التفاعل »  '..Get_Ttl(maseegs)..' \n🙇🏽',12,utf8.len(namei)) 
 end
 
@@ -1703,9 +1703,10 @@ return sendMsg(ChatID,MsgID,
 end
 
 if cmd == "active" then
-msgs = redis:get(boss..'msgs:'..UserID..':'..ChatID) or 1
-return send_msg(ChatID,'👤*¦* العضو » '..UserName..'\n📮*¦* رسائلك » '..msgs..' رسالةة \n🔖*¦* التفاعل »  '..Get_Ttl(msgs)..' \n🙇🏽',MsgID) 
-end
+local maseegs = redis:get(boss..'msgs:'..UserID..':'..ChatID) or 1
+local namei = FlterName(data.title_)
+return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..namei..' \n📮¦ رسائلك » {'..maseegs..'} رسالةة\n🔖¦ التفاعل »  '..Get_Ttl(maseegs)..' \n🙇🏽',12,utf8.len(namei)) 
+end 
 
 if cmd == "ban" then
 if UserID == our_id then 
