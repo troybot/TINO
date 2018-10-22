@@ -1367,7 +1367,7 @@ end
 if cmd == "active" then
 local maseegs = redis:get(boss..'msgs:'..UserID..':'..ChatID) or 1
 local namei = data.first_name_..' '..(data.last_name_ or "")
-return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..namei..' \n📮¦ رسائلك » {'..UserID..'} رسالةة\n🔖¦ التفاعل »  '..Get_Ttl(maseegs)..' \n🙇🏽',12,utf8.len(namei)) 
+return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..namei..' \n📮¦ رسائلك » {'..maseegs..'} رسالةة\n🔖¦ التفاعل »  '..Get_Ttl(maseegs)..' \n🙇🏽',12,utf8.len(namei)) 
 end
 
 if cmd == "ban" then
