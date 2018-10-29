@@ -11,7 +11,7 @@
 ]]
 
 function dl_cb(a,d) end
-  
+ 
 function GetInputFile(file)
 local file = file or "" 
 if file:match('/') then
@@ -1337,10 +1337,10 @@ end
 
 if cmd == "remowner" then
 if not redis:sismember(boss..'owners:'..ChatID,UserID) then 
-return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..USERNAME..' \n🎫¦ الايدي » {'..UserID..'}\n🛠¦ تمت ترقيته ليصبح ادمن \n✓️',12,USERCAR) 
+return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..USERNAME..' \n🎫¦ الايدي » {'..UserID..'}\n🛠¦ انه بالتأكيد ليس منشئ \n✓️',12,USERCAR) 
 end
 redis:srem(boss..'owners:'..ChatID,UserID)
-return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..USERNAME..' \n🎫¦ الايدي » {'..UserID..'}\n🛠¦ تمت ترقيته ليصبح ادمن \n✓️',12,USERCAR) 
+return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..USERNAME..' \n🎫¦ الايدي » {'..UserID..'}\n🛠¦ تم تنزيله من المنشئ  \n✓️',12,USERCAR) 
 end
 
 if cmd == "demote" then
