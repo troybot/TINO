@@ -1289,7 +1289,7 @@ end
 
 if MsgText[1] == "اذاعه عام بالتوجيه" or MsgText[1] == "اذاعه عام بالتوجيه 📣" then
 if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if msg.SudoUser and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser and msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:'..msg.sender_user_id_,300, true) 
@@ -1298,7 +1298,7 @@ end
 
 if MsgText[1] == "اذاعه عام" or MsgText[1] == "اذاعه عام 📢" then		
 if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if msg.SudoUser and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser and msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:all'..msg.sender_user_id_,300, true) 
@@ -1307,7 +1307,7 @@ end
 
 if MsgText[1] == "اذاعه خاص" or MsgText[1] == "اذاعه خاص 👤" then		
 if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if msg.SudoUser and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser and msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:pv'..msg.sender_user_id_,300, true) 
@@ -1316,7 +1316,7 @@ end
 
 if MsgText[1] == "اذاعه" or MsgText[1] == "اذاعه 🗣" then		
 if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if msg.SudoUser and not redis:get(boss..'lock_brod') then
+if not msg.SudoUser and msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:groups'..msg.sender_user_id_,300, true) 
