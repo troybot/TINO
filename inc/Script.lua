@@ -2511,11 +2511,11 @@ if data.username_ then UserName = "@"..data.username_ else UserName = "احد ا
 return sendMsg(msg.chat_id_,msg.id_,"📡| قام  ["..UserName.."]\n📭¦ بتغير اسم المجموعه  ✋🏿\n🗯¦ الى "..Flter_Markdown(msg.content_.title_).." \n✓") 
 end)
 end
-if msg.adduser or msg.joinuser or msg.deluser then
+if msg.adduser or msg.joinuser then
 if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
 Del_msg(msg.chat_id_,msg.id_)
 else
-if not msg.deluser and redis:get(boss..'welcome:get'..msg.chat_id_) then 
+if redis:get(boss..'welcome:get'..msg.chat_id_) then 
 if not msg.adduserType then
 GetUserID(msg.sender_user_id_,function(arg,data)  
 welcome = (redis:get(boss..'welcome:msg'..msg.chat_id_) or "🔖¦ مرحباً عزيزي\n🔖¦ نورت المجموعة \n💂🏼‍♀️")
