@@ -504,6 +504,7 @@ if not msg.Admin then return "📡*¦* هذا الامر يخص الادمنيه
 if not redis:get(boss..'lock_bots'..msg.chat_id_) then
 return '🙋🏼‍♂️*¦* أهلا عزيزي '..msg.TheRankCmd..'\n📡*¦* البوتات بالتأكيد تم فتحها \n✓'
 else 
+redis:del(boss..'lock_bots_by_kick'..msg.chat_id_)
 redis:del(boss..'lock_bots'..msg.chat_id_)
 return '🙋🏼‍♂️*¦* أهلا عزيزي '..msg.TheRankCmd..'\n📡*¦* تم فتح البوتات \n✓'
 end
@@ -881,7 +882,7 @@ if not msg.Admin then return "📡*¦* هذا الامر يخص الادمنيه
 if redis:get(boss..'lock_bots_by_kick'..msg.chat_id_) then
 return '🙋🏼‍♂️*¦* أهلا عزيزي '..msg.TheRankCmd..'\n📡*¦* البوتات بالطرد بالتاكيد تم قفله \n✓'
 else
-redis:del(boss..'lock_bots'..msg.chat_id_) 
+redis:set(boss..'lock_bots'..msg.chat_id_,true)
 redis:set(boss..'lock_bots_by_kick'..msg.chat_id_,true)
 return '🙋🏼‍♂️*¦* أهلا عزيزي '..msg.TheRankCmd..'\n📡*¦* تم قفل البوتات بالطرد (مع طرد الي ضافه) \n✓'
 end

@@ -452,15 +452,24 @@ if not msg.Director then return "📛*¦* هذا الامر يخص {المطور
 if 100 < tonumber(MsgText[2]) then return "📛*¦* حدود المسح ,  يجب ان تكون ما بين  *[2-100]*" end
 local DelMsg = MsgText[2] + 1
 GetHistory(msg.chat_id_,DelMsg,function(arg,data)
+All_Msgs = {}
 for k, v in pairs(data.messages_) do
 if k ~= 0 then
-Del_msg(v.chat_id_,v.id_,dl_cb)
+if k == 1 then
+All_Msgs[0] = v.id_
+else
+table.insert(All_Msgs,v.id_)
+end  
 end 
 end 
 if tonumber(DelMsg) == data.total_count_ then
-return sendMsg(msg.chat_id_,msg.id_,"*⛑¦* تـم مسح ~⪼ { *"..MsgText[2].."* } من الرسائل  \n✓")
+pcall(tdcli_function({ID="DeleteMessages",chat_id_=msg.chat_id_,message_ids_=All_Msgs},function() 
+sendMsg(msg.chat_id_,msg.id_,"*⛑¦* تـم مسح ~⪼ { *"..MsgText[2].."* } من الرسائل  \n✓")
+end,nil))
 else
-return sendMsg(msg.chat_id_,msg.id_,"*⛑¦* تـم مسح ~⪼ { *"..data.total_count_.."* } رسائل فقط \n📛*¦* لان لايوجد رسائل في سجل البوت اكثر من هذا العدد .  \n")
+pcall(tdcli_function({ID="DeleteMessages",chat_id_=msg.chat_id_,message_ids_=All_Msgs},function() 
+sendMsg(msg.chat_id_,msg.id_,"*⛑¦* تـم مسح ~⪼ { *"..MsgText[2].."* } من الرسائل  \n✓")
+end,nil))
 end
 end)
 return false
@@ -480,11 +489,11 @@ end
 
 if MsgText[2] == "قائمه المنع" then
 if not msg.Director then return "📛*¦* هذا الامر يخص {المطور,المنشئ,المدير} فقط  \n🚶" end
-local Mn3Word = redis:scard(boss..'klmamn3'..msg.chat_id_)
+local Mn3Word = redis:scard(boss..':Filter_Word:'..msg.chat_id_)
 if Mn3Word == 0 then 
 return "📡*¦* عذرا لا توجد كلمات ممنوعه ليتم حذفها ✓" 
 end
-redis:del(boss..'klmamn3'..msg.chat_id_)
+redis:del(boss..':Filter_Word:'..msg.chat_id_)
 return "🙋🏼‍♂️*¦* أهلا عزيزي "..msg.TheRankCmd.."   \n🔖¦ تم مسح {*"..Mn3Word.."*} كلمات من المنع ✓"
 end
 
@@ -673,7 +682,7 @@ end
 
 
 if MsgText[1] == "طرد البوتات" then
-if not msg.Creator then return "📛*¦* هذا الامر يخص {المطور,المنشئ} فقط  \n🚶" end
+if not msg.Director then return "📛*¦* هذا الامر يخص {المطور,المنشئ} فقط  \n🚶" end
 tdcli_function({ID="GetChannelMembers",channel_id_ = msg.chat_id_:gsub('-100',''),
 filter_ ={ID="ChannelMembersBots"},offset_ = 0,limit_ = 50},function(arg,data)
 local Total = data.total_count_ or 0
@@ -1279,8 +1288,8 @@ return redis:get(boss..":TEXT_SUDO") or '🗃¦ لا توجد كليشه الم�
 end
 
 if MsgText[1] == "اذاعه عام بالتوجيه" or MsgText[1] == "اذاعه عام بالتوجيه 📣" then
-if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoUser and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:'..msg.sender_user_id_,300, true) 
@@ -1288,8 +1297,8 @@ return "📭¦ حسننا الان ارسل التوجيه للاذاعه \n🔛
 end
 
 if MsgText[1] == "اذاعه عام" or MsgText[1] == "اذاعه عام 📢" then		
-if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoUser and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:all'..msg.sender_user_id_,300, true) 
@@ -1297,8 +1306,8 @@ return "📭¦ حسننا الان ارسل الكليشه للاذاعه عام
 end
 
 if MsgText[1] == "اذاعه خاص" or MsgText[1] == "اذاعه خاص 👤" then		
-if not msg.SudoBase then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoUser and not redis:get(boss..'lock_brod') then 
+if not msg.SudoUser then return "📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if msg.SudoUser and not redis:get(boss..'lock_brod') then 
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:pv'..msg.sender_user_id_,300, true) 
@@ -1306,8 +1315,8 @@ return "📭¦ حسننا الان ارسل الكليشه للاذاعه خاص
 end
 
 if MsgText[1] == "اذاعه" or MsgText[1] == "اذاعه 🗣" then		
-if not msg.SudoBase then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
-if not msg.SudoUser and not redis:get(boss..'lock_brod') then
+if not msg.SudoUser then return"📛*¦* هذا الامر يخص {المطور} فقط  \n🚶" end
+if msg.SudoUser and not redis:get(boss..'lock_brod') then
 return "📡*¦* الاذاعه مقفوله من قبل المطور الاساسي  🚶" 
 end
 redis:setex(boss..'fwd:groups'..msg.sender_user_id_,300, true) 
@@ -1734,7 +1743,7 @@ local text = [[
 🗯*¦*ـ➖➖➖➖
 🗯*¦* قفل «» فتح •⊱ التعديل  ⊰•
 🗯*¦*️ قفل «» فتح •⊱ البصمات ⊰•
-🗯**¦* قفل «» فتح •⊱ الــفيديو ⊰•
+🗯*¦* قفل «» فتح •⊱ الــفيديو ⊰•
 🗯*¦* قفل «» فتح •⊱ الفيديو ⊰•
 🗯*¦* قفل «» فتح •⊱ الـصــور ⊰•
 🗯*¦* قفل «» فتح •⊱ الملصقات ⊰•
@@ -1746,11 +1755,11 @@ local text = [[
 🗯*¦* قفل «» فتح •⊱ التاك ⊰•
 🗯*¦* قفل «» فتح •⊱ البوتات ⊰•
 🗯*¦* ️قفل «» فتح •⊱ المعرفات ⊰•
-🗯**¦* قفل «» فتح •⊱ البوتات بالطرد ⊰•
+🗯*¦* قفل «» فتح •⊱ البوتات بالطرد ⊰•
 🗯*¦* قفل «» فتح •⊱ الكلايش ⊰•
 🗯*¦*️ قفل «» فتح •⊱ التكرار ⊰•
 🗯*¦* قفل «» فتح •⊱ التوجيه ⊰•
-🗯*¦* قف «» فتح •⊱ الانلاين ⊰•
+🗯*¦* قفل «» فتح •⊱ الانلاين ⊰•
 
 🗯*¦* قفل «» فتح •⊱ الجهات ⊰•
 🗯*¦* قفل «» فتح •⊱ الــكـــل ⊰•
@@ -2377,14 +2386,10 @@ sendMsg(msg.chat_id_,msg.id_,'📑| اهلا عزيزي المطور \n🔖| ج�
 end
 local number = 0
 for i = 1, #pv do 
-pcall(tdcli_function({ID='GetChat',chat_id_ = pv[i]},function(arg,data)
 fwdMsg(pv[i],msg.chat_id_,msg.id_,dl_cb,nil)
-end,nil))
 end
 for i = 1, #groups do 
-pcall(tdcli_function({ID='GetChat',chat_id_ = groups[i]},function(arg,data)
 fwdMsg(groups[i],msg.chat_id_,msg.id_,dl_cb,nil)
-end,nil))
 end
 return sendMsg(msg.chat_id_,msg.id_,'📜*¦* تم اذاعه التوجيه بنجاح 🏌🏻\n🗣*¦* للمـجمـوعآت » *'..#groups..'* \n👥*¦* للخآص » '..#pv..'\n✓')			
 end
@@ -2507,6 +2512,31 @@ return sendMsg(msg.chat_id_,msg.id_,"📡| قام  ["..UserName.."]\n📭¦ بت
 end)
 end
 if msg.adduser or msg.joinuser or msg.deluser then
+if msg.adduser and #msg.content_.members_ > 0 then
+local lock_bots = redis:get(boss..'lock_bots'..msg.chat_id_)
+local lock_bots_by_kick = redis:get(boss..'lock_bots_by_kick'..msg.chat_id_)
+local mute_tgservice = redis:get(boss..'mute_tgservice'..msg.chat_id_)
+KickUserAdd = false
+for i=0,#msg.content_.members_ do
+if msg.content_.members_[i].type_.ID == "UserTypeBot" then
+if not msg.Admin then 
+if lock_bots then 
+kick_user(msg.content_.members_[i].id_, msg.chat_id_)
+end
+if lock_bots_by_kick then
+KickUserAdd = true
+end
+end
+end
+if mute_tgservice then
+Del_msg(msg.chat_id_,msg.id_)
+end
+end
+if KickUserAdd then
+kick_user(msg.sender_user_id_, msg.chat_id_)
+end
+return false
+end 
 
 if msg.adduser and msg.adduserType == "UserTypeBot" then
 if not msg.Admin and redis:get(boss..'lock_bots'..msg.chat_id_) then 

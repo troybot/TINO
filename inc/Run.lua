@@ -549,19 +549,12 @@ function tdcli_update_callback(data)
 	print('¦'..msg.content_.ID)
 	msg.game = true
 	elseif msg.content_.ID == "MessageChatDeleteMember" then
-
 	 msg.deluser = true
 	elseif msg.content_.ID == "MessageChatAddMembers" then
-	for i=0,#msg.content_.members_ do
-	msg.adduser = msg.content_.members_[i].id_
-	msg.addusername = msg.content_.members_[i].username_
-	msg.addname = msg.content_.members_[i].first_name_
-	msg.adduserType = msg.content_.members_[i].type_.ID
-	print('¦'..msg.content_.ID..' : '..msg.adduser)
-	print('¦ name : '..msg.addname)
-	print('¦ username : '..(msg.addusername or ""))
-	print('¦ Type : '..msg.adduserType)
-	end 
+	msg.adduser = msg.content_.members_[0].id_
+	msg.addusername = msg.content_.members_[0].username_
+	msg.addname = msg.content_.members_[0].first_name_
+	msg.adduserType = msg.content_.members_[0].type_.ID
 	elseif msg.content_.ID == "MessageChatJoinByLink" then
 	print('¦'..msg.content_.ID..' : '..msg.sender_user_id_)
 	msg.joinuser = true
