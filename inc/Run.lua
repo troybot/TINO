@@ -540,19 +540,10 @@ function tdcli_update_callback(data)
 	Del_msg(msg.chat_id_,msg.id_)
 	end
 	elseif msg.content_.ID == "MessageChatAddMembers" then
-	if redis:get(boss..'group:add'..msg.chat_id_) then 
-	if msg.sender_user_id_ == SUDO_ID then 
-	msg.Admin = true
-	elseif redis:sismember(boss..':SUDO_BOT:',msg.sender_user_id_) then 
-	msg.Admin = true
-	elseif redis:sismember(boss..':MONSHA_BOT:'..msg.chat_id_,msg.sender_user_id_) then 
-	msg.Admin = true
-	elseif redis:sismember(boss..'owners:'..msg.chat_id_,msg.sender_user_id_) then 
-	msg.Admin = true
-	elseif msg.GroupActive and redis:sismember(boss..'admins:'..msg.chat_id_,msg.sender_user_id_) then 
+	if redis:get(boss..'group:add'..msg.chat_id_) and not (msg.sender_user_id_ == SUDO_ID or redis:sismember(boss..':SUDO_BOT:',msg.sender_user_id_) or redis:sismember(boss..':MONSHA_BOT:'..msg.chat_id_,msg.sender_user_id_) or redis:sismember(boss..'owners:'..msg.chat_id_,msg.sender_user_id_) or redis:sismember(boss..'admins:'..msg.chat_id_,msg.sender_user_id_)) then 
 	msg.Admin = true
 	end
-	end
+	
 	local lock_bots = redis:get(boss..'lock_bots'..msg.chat_id_)
 	ISBOT = false
 	for i=0,#msg.content_.members_ do
