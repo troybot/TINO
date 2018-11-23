@@ -2512,44 +2512,6 @@ return sendMsg(msg.chat_id_,msg.id_,"📡| قام  ["..UserName.."]\n📭¦ بت
 end)
 end
 if msg.adduser or msg.joinuser or msg.deluser then
-if msg.adduser and #msg.content_.members_ > 0 then
-local lock_bots = redis:get(boss..'lock_bots'..msg.chat_id_)
-local lock_bots_by_kick = redis:get(boss..'lock_bots_by_kick'..msg.chat_id_)
-local mute_tgservice = redis:get(boss..'mute_tgservice'..msg.chat_id_)
-KickUserAdd = false
-for i=0,#msg.content_.members_ do
-if msg.content_.members_[i].type_.ID == "UserTypeBot" then
-if not msg.Admin then 
-if lock_bots then 
-kick_user(msg.content_.members_[i].id_, msg.chat_id_)
-end
-if lock_bots_by_kick then
-KickUserAdd = true
-end
-end
-end
-if mute_tgservice then
-Del_msg(msg.chat_id_,msg.id_)
-end
-end
-if KickUserAdd then
-kick_user(msg.sender_user_id_, msg.chat_id_)
-end
-return false
-end 
-
-if msg.adduser and msg.adduserType == "UserTypeBot" then
-if not msg.Admin and redis:get(boss..'lock_bots'..msg.chat_id_) then 
-kick_user(msg.adduser, msg.chat_id_)
-elseif not msg.Admin and redis:get(boss..'lock_bots_by_kick'..msg.chat_id_) then
-kick_user(msg.adduser, msg.chat_id_)
-kick_user(msg.sender_user_id_, msg.chat_id_)
-end
-if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
-Del_msg(msg.chat_id_,msg.id_)
-end
-return false
-end
 if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
 Del_msg(msg.chat_id_,msg.id_)
 else
