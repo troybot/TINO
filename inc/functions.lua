@@ -1080,7 +1080,7 @@ return sendMsg(msg.chat_id_,msg.id_,"📮¦ لا يـوجـد أدمـنـيـه
 else
 return sendMsg(msg.chat_id_,msg.id_,"📮¦ تم رفع  { *"..NumAdmin.."* } مـن آلآدمـنيهہ‌‏ في آلبوت \n✓️")
 end
-end,50)
+end,100)
 end
 
 
