@@ -538,10 +538,30 @@ function tdcli_update_callback(data)
 	elseif msg.content_.ID == "MessageChatDeleteMember" then
 	 msg.deluser = true
 	elseif msg.content_.ID == "MessageChatAddMembers" then
+	local lock_bots = redis:get(boss..'lock_bots'..msg.chat_id_)
+	ISBOT = false
+	for i=0,#msg.content_.members_ do
+	if msg.content_.members_[i].type_.ID == "UserTypeBot" then
+	ISBOT = true
+	if not msg.Admin and lock_bots then 
+	kick_user(msg.content_.members_[i].id_, msg.chat_id_)
+	end
+	end
+	end
+	if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
+	Del_msg(msg.chat_id_,msg.id_)
+	end
+	if ISBOT and redis:get(boss..'lock_bots_by_kick'..msg.chat_id_) then
+	kick_user(msg.sender_user_id_, msg.chat_id_)
+	end
+
+	if not ISBOT then
 	msg.adduser = msg.content_.members_[0].id_
 	msg.addusername = msg.content_.members_[0].username_
 	msg.addname = msg.content_.members_[0].first_name_
 	msg.adduserType = msg.content_.members_[0].type_.ID
+	end
+
 	elseif msg.content_.ID == "MessageChatJoinByLink" then
 	print('¦'..msg.content_.ID..' : '..msg.sender_user_id_)
 	msg.joinuser = true
@@ -678,14 +698,5 @@ function tdcli_update_callback(data)
 	end
 	end)
 	end
-	
-	
-	
-
-
-
-
 	end
-	
-	
 end
