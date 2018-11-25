@@ -598,6 +598,8 @@ elseif NumMsg < 10000 then
 MsgShow = 'قمه التفاعل ✨' 
 elseif NumMsg < 100000 then 
 MsgShow = 'اقوى تفاعل 🔥' 
+elseif NumMsg > 150000 then 
+MsgShow = 'اقوى تفاعل 🔥' 
 end
 return MsgShow 
 end
@@ -1443,8 +1445,11 @@ end
 if cmd == "banall" then
 if UserID == our_id then   
 return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر البوت\n🛠") 
+elseif UserID == SUDO_ID then 
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور الاساسي\n🛠")
+elseif redis:sismember(boss..':SUDO_BOT:',UserID) then 
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور\n🛠") 
 end
-
 if GeneralBanned(UserID) then return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..USERNAME..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦*  تم بالتأكيد حظره عام \n✓️') end
 redis:hset(boss..'username:'..UserID, 'username',Resolv)
 redis:sadd(boss..'gban_users',UserID)
@@ -1787,7 +1792,11 @@ end
 
 if cmd == "banall" then
 if UserID == our_id then   
-return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر البوت\n🛠")  
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر البوت\n🛠") 
+elseif UserID == SUDO_ID then 
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور الاساسي\n🛠")
+elseif redis:sismember(boss..':SUDO_BOT:',UserID) then 
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور\n🛠") 
 end
 if GeneralBanned(UserID) then 
 return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم بالتأكيد حظره عام \n✓️') 
@@ -1799,9 +1808,6 @@ return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* ا
 end
 
 if cmd == "unbanall" then
-if (redis:sismember(boss..':SUDO_BOT:',UserID) or UserID == our_id) then 
-return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور او البوت") 
-end
 if not GeneralBanned(UserID) then 
 return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم بالتأكيد الغاء حظره العام \n✓️') 
 end
@@ -2090,9 +2096,10 @@ end
 if cmd == "bandall" then
 if UserID == our_id then   
 return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر البوت\n🛠") 
-end
-if redis:sismember(boss..':SUDO_BOT:',UserID) then 
-return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر عام للادمنيه او المدراء\n🛠") 
+elseif UserID == SUDO_ID then 
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور الاساسي\n🛠")
+elseif redis:sismember(boss..':SUDO_BOT:',UserID) then 
+return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور\n🛠") 
 end
 if GeneralBanned(UserID) then 
 return SendMention(ChatID,UserID,MsgID,'👤¦ العضو » '..USERNAME..' \n🎫¦ الايدي » {'..UserID..'}\n🛠¦ تم بالتأكيد حظره عام \n✓️',12,USERCAR) 
