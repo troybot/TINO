@@ -15,7 +15,10 @@ Er_url   , URL   = pcall(require, "socket.url")
 Er_http  , http  = pcall(require, "socket.http")
 Er_utf8  , utf8  = pcall(require, "lua-utf8")
 Er_redis , redis = pcall(require, "redis")
-
+serpent = require("serpent") 
+function vardump(value)  
+print(serpent.block(value, {comment=false}))
+end 
 redis = redis.connect('127.0.0.1',6379)
 http.TIMEOUT = 5
 
@@ -49,7 +52,7 @@ Token = io.read():gsub(' ','')
 if Token == '' then
 print('\n\27[1;31m￤ You Did not Enter TOKEN !\n￤ عذرآ لم تقوم بآدخآل آي شـيء , آدخل توگن آلبوت آلآن ')
 create_config()
-end 
+end
 Api_Token = 'https://api.telegram.org/bot'..Token
 local url , res = https.request(Api_Token..'/getMe')
 if res ~= 200 then
@@ -413,11 +416,7 @@ else
 print("The File Script.lua Not Runing in The Source Boss")
 
 end
-
-
- 
 end
-
 
 function tdcli_update_callback(data)
 	local msg = data.message_
@@ -540,16 +539,17 @@ function tdcli_update_callback(data)
 	Del_msg(msg.chat_id_,msg.id_)
 	end
 	elseif msg.content_.ID == "MessageChatAddMembers" then
-	if redis:get(boss..'group:add'..msg.chat_id_) and not (msg.sender_user_id_ == SUDO_ID or redis:sismember(boss..':SUDO_BOT:',msg.sender_user_id_) or redis:sismember(boss..':MONSHA_BOT:'..msg.chat_id_,msg.sender_user_id_) or redis:sismember(boss..'owners:'..msg.chat_id_,msg.sender_user_id_) or redis:sismember(boss..'admins:'..msg.chat_id_,msg.sender_user_id_)) then 
+	if redis:get(boss..'group:add'..msg.chat_id_) and (msg.sender_user_id_ == SUDO_ID or redis:sismember(boss..':SUDO_BOT:',msg.sender_user_id_) or redis:sismember(boss..':MONSHA_BOT:'..msg.chat_id_,msg.sender_user_id_) or redis:sismember(boss..'owners:'..msg.chat_id_,msg.sender_user_id_) or redis:sismember(boss..'admins:'..msg.chat_id_,msg.sender_user_id_)) then 
 	msg.Admin = true
 	end
-	
 	local lock_bots = redis:get(boss..'lock_bots'..msg.chat_id_)
 	ISBOT = false
+	ZISBOT = false
 	for i=0,#msg.content_.members_ do
 	if msg.content_.members_[i].type_.ID == "UserTypeBot" then
 	ISBOT = true
 	if not msg.Admin and lock_bots then 
+	ZISBOT =true
 	kick_user(msg.content_.members_[i].id_, msg.chat_id_)
 	end
 	end
@@ -557,7 +557,7 @@ function tdcli_update_callback(data)
 	if redis:get(boss..'mute_tgservice'..msg.chat_id_) then
 	Del_msg(msg.chat_id_,msg.id_)
 	end
-	if ISBOT and redis:get(boss..'lock_bots_by_kick'..msg.chat_id_) then
+	if ZISBOT and redis:get(boss..'lock_bots_by_kick'..msg.chat_id_) then
 	kick_user(msg.sender_user_id_, msg.chat_id_)
 	end
 
@@ -587,6 +587,9 @@ function tdcli_update_callback(data)
 	redis:set(boss..'group:name'..data.chat_.id_,data.chat_.title_)
 	end
 	elseif data.ID == "UpdateChannel" then  
+	print('¦ ------------------')
+	vardump(data)
+	print('¦ -----------------')
 	if data.channel_.status_.ID == "chatMemberStatusKicked" then 
 	elseif data.channel_.status_.ID == "ChatMemberStatusMember" then 
 	print('¦ The bot is Member')
