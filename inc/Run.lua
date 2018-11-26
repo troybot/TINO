@@ -583,9 +583,6 @@ function tdcli_update_callback(data)
 	redis:set(boss..'group:name'..data.chat_.id_,data.chat_.title_)
 	end
 	elseif data.ID == "UpdateChannel" then  
-	print('¦ ------------------')
-	vardump(data)
-	print('¦ -----------------')
 	if data.channel_.status_.ID == "chatMemberStatusKicked" then 
 	elseif data.channel_.status_.ID == "ChatMemberStatusMember" then 
 	print('¦ The bot is Member')
