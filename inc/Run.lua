@@ -85,13 +85,13 @@ if GetUser.cause then
 print('\n\27[1;31m￤ '..GetUser.cause)
 os.exit()
 end
+print('\n\27[1;31m￤ USERNAME is Incorrect Please Check it!\n￤ لآ يوجد حسـآب بهہ‏‏ذآ آلمـعرف , تآگد مـنهہ‏‏ جيدآ  !')
+create_config(Token)
+end  
 if GetUser.information.typeuser ~= "UserTypeGeneral" then
 print('\n\27[1;31m￤ This UserName is not personal account !\n￤عذرا يرجى ادخال معرف حساب شخصي ليكون مطور البوت وليس معرف قناة او بوت او مجموعة !')
 create_config(Token)
 end
-print('\n\27[1;31m￤ USERNAME is Incorrect Please Check it!\n￤ لآ يوجد حسـآب بهہ‏‏ذآ آلمـعرف , تآگد مـنهہ‏‏ جيدآ  !')
-create_config(Token)
-end  
 print('\n\27[1;36m￤تم آدخآل مـعرف آلمـطـور بنجآح , سـوف يتم تشـغيل آلسـورس آلآن .\n￤Success Save USERNAME IS_ID: \27[0;32m['..GetUser.information.id..']\n\27[0;39;49m')
 boss = Token:match("(%d+)")
 redis:set(boss..":VERSION",GetUser.information.Source_version)
