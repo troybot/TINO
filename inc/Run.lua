@@ -71,7 +71,6 @@ print('\n\27[1;31m￤ This is Not USERNAME !\n￤هہ‏‏ذآ ليس مـعر�
 create_config(Token)
 end 
 local url , res = https.request('https://api.th3bs.com/GetUser/?User='..SUDO_USER)
-
 if res ~= 200 then
 print('\n\27[1;31m￤ Conect is Failed !\n￤ حدث خطـآ في آلآتصـآل بآلسـيرفر , يرجى مـرآسـلهہ‏‏ مـطـور آلسـورس ليتمـگن مـن حل آلمـشـگلهہ‏‏ في آسـرع وقت مـمـگن . !')
 create_config(Token)
@@ -85,6 +84,10 @@ if not GetUser.result then
 if GetUser.cause then
 print('\n\27[1;31m￤ '..GetUser.cause)
 os.exit()
+end
+if GetUser.information.typeuser ~= "UserTypeGeneral" then
+print('\n\27[1;31m￤ This UserName is not personal account !\n￤عذرا يرجى ادخال معرف حساب شخصي ليكون مطور البوت وليس معرف قناة او بوت او مجموعة !')
+create_config(Token)
 end
 print('\n\27[1;31m￤ USERNAME is Incorrect Please Check it!\n￤ لآ يوجد حسـآب بهہ‏‏ذآ آلمـعرف , تآگد مـنهہ‏‏ جيدآ  !')
 create_config(Token)
